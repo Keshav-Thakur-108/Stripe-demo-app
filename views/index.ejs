@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://js.stripe.com/v3/"></script>
+    <title>Document</title>
+</head>
+<body>
+    <button data-price-id="price_1I5UFWJyebsdgbD8D1agPtyD" id="btn">Purchase</button>
+    <script>
+        
+        var stripe = Stripe('<%=stripePublicKey%>')
+        var button = document.getElementById('btn')
+        button.addEventListener('click', (e)=> {
+            e.preventDefault();
+            fetch('/create-checkout-session', {
+                method:'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    price: button.getAttribute("data-price-id")
+                })
+            }).then(response => response.json()).then(session => {
+                stripe.redirectToCheckout({
+                    sessionId: session.id
+                })
+            }).catch(err=> console.error(err))
+        })
+    </script>
+</body>
+</html>

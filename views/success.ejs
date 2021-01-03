@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <pre id="session-data"></pre>
+    <script>
+        const sessionData = document.getElementById('session-data')
+        fetch(`/checkout-session?id=<%=sessionId%>`).then(response => response.json()).then(session => {
+            sessionData.innerText = JSON.stringify(session, null, 2);
+        }).catch(err => console.error(err))
+    </script>
+</body>
+</html>
